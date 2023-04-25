@@ -17,7 +17,7 @@ import { fetchPostJSON } from "../utils/api-helpers";
 import getStripe from "../utils/get-stripejs";
 type Props = {};
 
-function checkout({}: Props) {
+function Checkout({}: Props) {
 	const items = useSelector(selectBasketItems);
 	const basketTotal = useSelector(selectBasketTotal);
 	const router = useRouter();
@@ -35,24 +35,24 @@ function checkout({}: Props) {
 				items: items,
 			}
 		);
-			//internal Server Error
+		//internal Server Error
 		if ((checkoutSession as any).statusCode === 500) {
 			console.error((checkoutSession as any).mesaage);
 			return;
 		}
 
 		//redirect to checkout
-		const stripe = await getStripe()
-		const {error} = await stripe!.redirectToCheckout({
-			sessionId: checkoutSession.id
+		const stripe = await getStripe();
+		const { error } = await stripe!.redirectToCheckout({
+			sessionId: checkoutSession.id,
 		});
 
 		//If redirectToCheckout fails due to browser
 		//or network, warn the customer.
 		console.warn(error.message);
 
-		setLoading(false)
-	};	
+		setLoading(false);
+	};
 
 	useEffect(() => {
 		const groupedItems = items.reduce((results, item) => {
@@ -183,4 +183,4 @@ function checkout({}: Props) {
 	);
 }
 
-export default checkout;
+export default Checkout;
