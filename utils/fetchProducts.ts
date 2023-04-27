@@ -1,5 +1,5 @@
 export const fetchProducts = async () => {
-    const res = await fetch(`http://localhost:3000/api/getProducts`);
+    const res = await fetch(`https://ziggs.vercel.app/api/getProducts`);
 
     const data = await res.json()
     const products: Product[] = data.products
